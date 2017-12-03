@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/game_background"
+    android:weightSum="3"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.user.memorygame.MainActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1"></LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="4"
+        android:layout_weight="1">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="123dp">
+        </View>
+        <Button
+            android:id="@+id/hard"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/game_hard" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="25dp">
+        </View>
+
+        <Button
+            android:id="@+id/medium"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/game_medium" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="34dp">
+        </View>
+
+        <Button
+            android:id="@+id/easy"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/game_easy" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="51dp">
+        </View>
+        <Button
+            android:id="@+id/play"
+            android:layout_width="match_parent"
+            android:layout_height="111dp"
+            android:background="@drawable/game_play_button"
+             />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </View>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1"></LinearLayout>
+</LinearLayout>

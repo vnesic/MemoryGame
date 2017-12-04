@@ -3,6 +3,7 @@ package com.example.user.memorygame;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -63,8 +64,8 @@ public class ShapesActivity extends Activity {
                 iv_11.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        float deg = iv_11.getRotation() + 180F;
-                        iv_11.animate().rotation(deg).setInterpolator(new AccelerateDecelerateInterpolator());
+     //                   float deg = iv_11.getRotation() + 180F;
+     //                   iv_11.animate().rotation(deg).setInterpolator(new AccelerateDecelerateInterpolator());
                         lastClicked = iv_11;
                         String num = (String) iv_11.getTag();
                         setImage(Integer.parseInt(num), (ImageView) view);
@@ -113,40 +114,48 @@ public class ShapesActivity extends Activity {
     public void setImage(final int num, final ImageView iv) {
    //     Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
    //     iv.startAnimation(shake);
+        if (imageArray[num] == 101) {
+            iv.setImageResource(image101);
+        } else if (imageArray[num] == 102) {
+            iv.setImageResource(image102);
+        }
+
                 if(Integer.parseInt((String)iv.getTag())!=lastTag){
                     if (firstImage != 0) {
                         if (firstImage == imageArray[num]) {
                             iv.setImageResource(firstImage);
-                            iv.setVisibility(View.INVISIBLE);
-                            switch (lastTag){
-                                case 0:
-                                    iv_11.setVisibility(View.INVISIBLE);
-                                    setImageArray[Integer.parseInt((String)iv_11.getTag())]=true;
-                                    break;
-                                case 1:
-                                    iv_12.setVisibility(View.INVISIBLE);
-                                    setImageArray[Integer.parseInt((String)iv_12.getTag())]=true;
-                                    break;
-                                case 2:
-                                    iv_21.setVisibility(View.INVISIBLE);
-                                    setImageArray[Integer.parseInt((String)iv_21.getTag())]=true;
-                                    break;
-                                case 3:
-                                    iv_22.setVisibility(View.INVISIBLE);
-                                    setImageArray[Integer.parseInt((String)iv_22.getTag())]=true;
-                                    break;
-                            }
-                            setImageArray[num]=true;
-                            Boolean flag=true;
-                            for(int i =0;i<setImageArray.length;i++){
-                                flag=flag && setImageArray[i];
-                            }
-                            if(flag=true){
-                                Toast.makeText(this, "You completed the game", Toast.LENGTH_SHORT).show();
-                            }
-                            firstImage = 0;
-                            lastTag = 100;
-                            lastClicked = null;
+
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable(){
+                                @Override
+                                public void run() {
+
+                                    iv.setVisibility(View.INVISIBLE);
+
+                                    switch (lastTag){
+                                        case 0:
+                                            iv_11.setVisibility(View.INVISIBLE);
+                                            setImageArray[Integer.parseInt((String)iv_11.getTag())]=true;
+                                            break;
+                                        case 1:
+                                            iv_12.setVisibility(View.INVISIBLE);
+                                            setImageArray[Integer.parseInt((String)iv_12.getTag())]=true;
+                                            break;
+                                        case 2:
+                                            iv_21.setVisibility(View.INVISIBLE);
+                                            setImageArray[Integer.parseInt((String)iv_21.getTag())]=true;
+                                            break;
+                                        case 3:
+                                            iv_22.setVisibility(View.INVISIBLE);
+                                            setImageArray[Integer.parseInt((String)iv_22.getTag())]=true;
+                                            break;
+                                    }
+                                    setImageArray[num]=true;
+                                    firstImage = 0;
+                                    lastTag = 100;
+                                    lastClicked = null;
+                                }
+                            },1000);
                         } else {
                             iv.setImageResource(R.drawable.game_element);
                             switch (lastTag){
@@ -168,16 +177,13 @@ public class ShapesActivity extends Activity {
                             lastClicked = null;
                         }
                     } else {
-                        if (imageArray[num] == 101) {
-                            iv.setImageResource(image101);
-                        } else if (imageArray[num] == 102) {
-                            iv.setImageResource(image102);
-                        }
+
                         firstImage = imageArray[num];
                         lastClicked = iv;
                         lastTag = Integer.parseInt((String)iv.getTag());
                     }
             }
+
 
     }
 }

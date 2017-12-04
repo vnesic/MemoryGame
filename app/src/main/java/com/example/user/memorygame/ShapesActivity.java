@@ -5,7 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +28,7 @@ public class ShapesActivity extends Activity {
     ImageView iv_12, iv_21, iv_11, iv_22;//,iv_1,iv_2
     int currentImage = 0;
     Integer[] imageArray = {101, 102, 101, 102};
+    Boolean[] setImageArray = {false, false,false, false};
     int image101, image102;
     int firstImage = 0;
     int lastTag = 100;
@@ -58,6 +63,8 @@ public class ShapesActivity extends Activity {
                 iv_11.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        float deg = iv_11.getRotation() + 180F;
+                        iv_11.animate().rotation(deg).setInterpolator(new AccelerateDecelerateInterpolator());
                         lastClicked = iv_11;
                         String num = (String) iv_11.getTag();
                         setImage(Integer.parseInt(num), (ImageView) view);
@@ -104,23 +111,58 @@ public class ShapesActivity extends Activity {
     }
 
     public void setImage(final int num, final ImageView iv) {
+   //     Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+   //     iv.startAnimation(shake);
                 if(Integer.parseInt((String)iv.getTag())!=lastTag){
                     if (firstImage != 0) {
                         if (firstImage == imageArray[num]) {
                             iv.setImageResource(firstImage);
-                            try {
-                                sleep(1000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
                             iv.setVisibility(View.INVISIBLE);
-                            lastClicked.setVisibility(View.INVISIBLE);
+                            switch (lastTag){
+                                case 0:
+                                    iv_11.setVisibility(View.INVISIBLE);
+                                    setImageArray[Integer.parseInt((String)iv_11.getTag())]=true;
+                                    break;
+                                case 1:
+                                    iv_12.setVisibility(View.INVISIBLE);
+                                    setImageArray[Integer.parseInt((String)iv_12.getTag())]=true;
+                                    break;
+                                case 2:
+                                    iv_21.setVisibility(View.INVISIBLE);
+                                    setImageArray[Integer.parseInt((String)iv_21.getTag())]=true;
+                                    break;
+                                case 3:
+                                    iv_22.setVisibility(View.INVISIBLE);
+                                    setImageArray[Integer.parseInt((String)iv_22.getTag())]=true;
+                                    break;
+                            }
+                            setImageArray[num]=true;
+                            Boolean flag=true;
+                            for(int i =0;i<setImageArray.length;i++){
+                                flag=flag && setImageArray[i];
+                            }
+                            if(flag=true){
+                                Toast.makeText(this, "You completed the game", Toast.LENGTH_SHORT).show();
+                            }
                             firstImage = 0;
                             lastTag = 100;
                             lastClicked = null;
                         } else {
                             iv.setImageResource(R.drawable.game_element);
-                            lastClicked.setImageResource(R.drawable.game_element);
+                            switch (lastTag){
+                                case 0:
+                                    iv_11.setImageResource(R.drawable.game_element);
+                                    break;
+                                case 1:
+                                    iv_12.setImageResource(R.drawable.game_element);
+                                    break;
+                                case 2:
+                                    iv_21.setImageResource(R.drawable.game_element);
+                                    break;
+                                case 3:
+                                    iv_22.setImageResource(R.drawable.game_element);
+                                    break;
+                            }
                             firstImage = 0;
                             lastTag = 100;
                             lastClicked = null;
@@ -136,5 +178,6 @@ public class ShapesActivity extends Activity {
                         lastTag = Integer.parseInt((String)iv.getTag());
                     }
             }
+
     }
 }
